@@ -45,7 +45,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-slate-950 via-purple-950 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -53,26 +53,26 @@ function LoginPage() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:72px_72px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-size-[72px_72px]"></div>
       </div>
 
       <div className="max-w-md w-full space-y-8 relative">
         {/* Glowing Card Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl"></div>
         
         {/* Main Card */}
-        <div className="relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl shadow-2xl shadow-purple-500/20 border border-purple-500/20 p-8 sm:p-10">
+        <div className="relative bg-linear-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl shadow-2xl shadow-purple-500/20 border border-purple-500/20 p-8 sm:p-10">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="relative inline-flex mb-6">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-60 animate-pulse"></div>
-              <div className="relative h-20 w-20 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-6 transition-all duration-500">
+              <div className="absolute inset-0 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-60 animate-pulse"></div>
+              <div className="relative h-20 w-20 bg-linear-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-6 transition-all duration-500">
                 <span className="text-white font-black text-3xl">G</span>
               </div>
             </div>
             
             <h2 className="text-4xl font-black mb-3">
-              <span className="bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
                 Welcome Back
               </span>
             </h2>
@@ -149,10 +149,10 @@ function LoginPage() {
 
             {/* Error Message */}
             {error && (
-              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-rose-500/10 to-pink-500/10 p-4 border border-rose-500/30 backdrop-blur-sm">
+              <div className="relative overflow-hidden rounded-xl bg-linear-to-r from-rose-500/10 to-pink-500/10 p-4 border border-rose-500/30 backdrop-blur-sm">
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <div className="shrink-0">
+                    <div className="w-8 h-8 bg-linear-to-r from-rose-500 to-pink-500 rounded-lg flex items-center justify-center">
                       <svg className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
@@ -169,9 +169,9 @@ function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="relative overflow-hidden group w-full flex justify-center items-center gap-3 py-4 px-4 rounded-xl text-base font-black text-white bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
+              className="relative overflow-hidden group w-full flex justify-center items-center gap-3 py-4 px-4 rounded-xl text-base font-black text-white bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               {isLoading ? (
                 <div className="relative flex items-center">
                   <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -196,7 +196,7 @@ function LoginPage() {
                 Don't have an account?{' '}
                 <button
                   type="button"
-                  className="font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text hover:from-cyan-300 hover:to-purple-300 transition-all duration-300"
+                  className="font-bold text-transparent bg-linear-to-r from-cyan-400 to-purple-400 bg-clip-text hover:from-cyan-300 hover:to-purple-300 transition-all duration-300"
                   onClick={() => navigate('/register')}
                 >
                   Sign up now
