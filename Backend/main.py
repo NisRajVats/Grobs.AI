@@ -1,16 +1,10 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm
-import security # Our updated security file
-from datetime import timedelta
-from fastapi.security import OAuth2PasswordBearer
-import security # This should already be there
-import crud # This should already be there
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from typing import List
-import ai_analyzer # Our new file
-from typing import List # This might already be here
-from fastapi import FastAPI, Depends, HTTPException, Response, status
+import crud
+import ai_analyzer
 
 # Import all our new files
 import models
@@ -23,25 +17,28 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# This tells FastAPI to look for a token in the URL "/token"
-# (but we won't use it directly, it just sets up the dependency)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 # --- CORS Middleware ---
 # This is the security that allows your React frontend
 # to talk to your Python backend
 origins = [
-    "http://localhost:5173",  # Your React app
-    "http://127.0.0.1:5173", # Your React app
+    "http://localhost:5175",  # Your React app
+    "http://127.0.0.1:5175",  # Your React app (127.0.0.1)
+    "http://localhost:3000",  # Alternative port
+    "http://127.0.0.1:3000",  # Alternative port
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=600,
 )
+
+# Instantiate OAuth2 scheme
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # --- API Endpoints ---
 
@@ -52,15 +49,25 @@ def read_root():
 
 @app.post("/register/", response_model=schemas.User)
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-
+    import hashlib
+    
     # 1. Check if user already exists
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
-        # If they do, raise an error
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    # 2. If not, create the new user
-    return crud.create_user(db=db, user=user)
+    # 2. Hash password using simple SHA256
+    hashed_password = hashlib.sha256(user.password.encode()).hexdigest()
+    
+    # 3. Create user directly
+    db_user = models.User(
+        email=user.email, 
+        hashed_password=hashed_password
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 
 @app.post("/token", response_model=schemas.Token)
@@ -68,23 +75,31 @@ async def login_for_access_token(
     db: Session = Depends(get_db), 
     form_data: OAuth2PasswordRequestForm = Depends()
 ):
-
+    import hashlib
+    from datetime import datetime, timedelta, timezone
+    from jose import jwt
+    
     # 1. Get the user from the DB by email (form_data.username is the email)
     user = crud.get_user_by_email(db, email=form_data.username)
 
     # 2. Check if user exists and if the password is correct
-    if not user or not security.verify_password(form_data.password, user.hashed_password):
-        # If not, raise an error
+    hashed_input = hashlib.sha256(form_data.password.encode()).hexdigest()
+    if not user or user.hashed_password != hashed_input:
         raise HTTPException(
             status_code=401,
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # 3. If password is correct, create a new access token
-    access_token = security.create_access_token(
-        data={"sub": user.email}
-    )
+    # 3. Create a new access token
+    SECRET_KEY = "fa65bf978f9b46b1652c712c6b0f79b2b84af8d011383d1948fe047b758fc549"
+    ALGORITHM = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES = 30
+    
+    to_encode = {"sub": user.email}
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    access_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
     # 4. Return the token
     return {"access_token": access_token, "token_type": "bearer"}
@@ -93,34 +108,38 @@ async def get_current_user(
     db: Session = Depends(get_db), 
     token: str = Depends(oauth2_scheme)
 ):
-    """
-    A dependency that gets the token, decodes it,
-    and returns the user from the database.
-    """
+    from jose import JWTError, jwt
     
-    # 1. Decode the token to get the email
-    token_data = security.decode_access_token(token)
+    SECRET_KEY = "fa65bf978f9b46b1652c712c6b0f79b2b84af8d011383d1948fe047b758fc549"
+    ALGORITHM = "HS256"
     
-    if not token_data or not token_data.email:
-        # If the token is invalid or has no email
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid authentication credentials",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    except JWTError:
         raise HTTPException(
             status_code=401,
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
         
-    # 2. Get the user from the database
-    user = crud.get_user_by_email(db, email=token_data.email)
+    # Get the user from the database
+    user = crud.get_user_by_email(db, email=email)
     
     if user is None:
-        # If the user from the token doesn't exist
         raise HTTPException(
             status_code=401,
             detail="User not found",
             headers={"WWW-Authenticate": "Bearer"},
         )
         
-    return user # This is the logged-in user object
+    return user
 
 
 @app.get("/users/me", response_model=schemas.User)

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 import models
 import schemas
-import security
+import hashlib
 
 # --- User CRUD (No Changes) ---
 
@@ -11,7 +11,7 @@ def get_user_by_email(db: Session, email: str):
 
 def create_user(db: Session, user: schemas.UserCreate):
     """Creates a new user in the database."""
-    hashed_password = security.get_password_hash(user.password)
+    hashed_password = hashlib.sha256(user.password.encode()).hexdigest()
     db_user = models.User(
         email=user.email, 
         hashed_password=hashed_password

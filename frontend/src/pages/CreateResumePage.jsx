@@ -31,7 +31,7 @@ function CreateResumePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 pt-24">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-32 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse-slow"></div>
@@ -123,47 +123,6 @@ function CreateResumePage() {
         {/* Main Form Content */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
           <div className="relative">
-            {/* Floating Help Card */}
-            <div className="absolute -right-80 top-0 w-72 hidden xl:block">
-              <div className="bg-white/90 backdrop-blur-sm rounded-3xl border border-gray-200 p-6 shadow-lg sticky top-24">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                  Pro Tips
-                </h3>
-                <ul className="space-y-3 text-sm text-gray-600">
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                    <span>Use bullet points for responsibilities</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                    <span>Include measurable achievements</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                    <span>Add relevant skills for your industry</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                    <span>Include project links and GitHub URLs</span>
-                  </li>
-                </ul>
-                
-                <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200">
-                  <h4 className="font-semibold text-gray-900 text-sm mb-2">Need help?</h4>
-                  <p className="text-xs text-gray-600 mb-3">Our AI can analyze and improve your resume after creation.</p>
-                  <button 
-                    onClick={() => navigate('/')}
-                    className="w-full text-xs bg-white border border-gray-300 text-gray-700 rounded-xl px-3 py-2 hover:bg-gray-50 transition-colors duration-200 font-medium"
-                  >
-                    Explore AI Analysis
-                  </button>
-                </div>
-              </div>
-            </div>
-
             {/* Resume Form */}
             <div className="max-w-6xl">
               <ResumeForm 

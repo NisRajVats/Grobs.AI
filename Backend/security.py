@@ -1,18 +1,19 @@
 from datetime import datetime, timedelta, timezone
-from passlib.context import CryptContext
+import hashlib
 from jose import JWTError, jwt
 from pydantic import BaseModel
 
 # --- Password Hashing ---
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def verify_password(plain_password, hashed_password):
     """Checks if the plain password matches the hashed one."""
-    return pwd_context.verify(plain_password, hashed_password)
+    # Simple SHA256 hashing for testing (NOT for production)
+    return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
 
 def get_password_hash(password):
     """Generates a secure hash for a plain-text password."""
-    return pwd_context.hash(password)
+    # Simple SHA256 hashing for testing (NOT for production)
+    return hashlib.sha256(password.encode()).hexdigest()
 
 
 # --- JSON Web Token (JWT) ---
