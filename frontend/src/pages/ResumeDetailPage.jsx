@@ -149,7 +149,7 @@ const ResumeDetailPage = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.05 }}
-                        className="px-4 py-2 bg-gradient-to-r from-primary-50 to-accent-50 text-primary-700 rounded-lg font-medium border border-primary-200"
+                        className="px-4 py-2 bg-linear-to-r from-primary-50 to-accent-50 text-primary-700 rounded-lg font-medium border border-primary-200"
                       >
                         {skill.name}
                       </motion.span>
@@ -265,7 +265,7 @@ const ResumeDetailPage = () => {
           >
             <div className="glass-effect rounded-2xl p-8 sticky top-24">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="bg-gradient-to-br from-primary-500 to-accent-500 p-3 rounded-xl">
+                <div className="bg-linear-to-br from-primary-500 to-accent-500 p-3 rounded-xl">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-800">
@@ -291,7 +291,7 @@ const ResumeDetailPage = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAnalyze}
                 disabled={analyzing}
-                className="w-full py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 flex items-center justify-center space-x-2"
+                className="w-full py-4 bg-linear-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 flex items-center justify-center space-x-2"
               >
                 {analyzing ? (
                   <>
@@ -314,7 +314,7 @@ const ResumeDetailPage = () => {
                 >
                   <div className="text-center">
                     <div
-                      className={`inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br ${getScoreBgColor(
+                      className={`inline-flex items-center justify-center w-32 h-32 rounded-full bg-linear-to-br ${getScoreBgColor(
                         analysis.score
                       )} shadow-2xl mb-4`}
                     >

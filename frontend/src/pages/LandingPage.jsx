@@ -45,7 +45,7 @@ const LandingPage = () => {
         animate={{ opacity: 1 }}
         className="relative overflow-hidden py-20 px-4"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-100 via-blue-50 to-accent-100 opacity-50" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary-100 via-blue-50 to-accent-100 opacity-50" />
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-bounce-soft" />
           <div className="absolute top-40 right-10 w-72 h-72 bg-accent-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-bounce-soft animation-delay-2000" />
@@ -73,7 +73,7 @@ const LandingPage = () => {
             <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
               Build Your Dream
               <br />
-              <span className="gradient-text">Career Resume</span>
+              <span className="linear-text">Career Resume</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
@@ -86,7 +86,7 @@ const LandingPage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="group px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold text-lg flex items-center space-x-2"
+                  className="group px-8 py-4 bg-linear-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 font-semibold text-lg flex items-center space-x-2"
                 >
                   <span>Get Started Free</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -116,7 +116,7 @@ const LandingPage = () => {
             className="text-4xl md:text-5xl font-bold text-center mb-16"
           >
             Powerful Features for
-            <span className="gradient-text"> Success</span>
+            <span className="linear-text"> Success</span>
           </motion.h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -130,7 +130,7 @@ const LandingPage = () => {
                 whileHover={{ y: -10 }}
                 className="glass-effect p-8 rounded-2xl card-hover"
               >
-                <div className="bg-gradient-to-br from-primary-500 to-accent-500 w-14 h-14 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg">
+                <div className="bg-linear-to-br from-primary-500 to-accent-500 w-14 h-14 rounded-xl flex items-center justify-center text-white mb-6 shadow-lg">
                   {feature.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-slate-800">
@@ -154,7 +154,7 @@ const LandingPage = () => {
             className="glass-effect p-12 rounded-3xl"
           >
             <h2 className="text-4xl font-bold text-center mb-12">
-              Why Choose <span className="gradient-text">GROBS.AI?</span>
+              Why Choose <span className="linear-text">GROBS.AI?</span>
             </h2>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -167,7 +167,7 @@ const LandingPage = () => {
                   transition={{ delay: index * 0.1 }}
                   className="flex items-center space-x-3"
                 >
-                  <CheckCircle className="w-6 h-6 text-primary-500 flex-shrink-0" />
+                  <CheckCircle className="w-6 h-6 text-primary-500 shrink-0" />
                   <span className="text-lg text-slate-700">{benefit}</span>
                 </motion.div>
               ))}
@@ -176,7 +176,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-gradient-to-br from-primary-500 to-accent-500">
+      <section className="py-20 px-4 bg-linear-to-br from-primary-500 to-accent-500">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

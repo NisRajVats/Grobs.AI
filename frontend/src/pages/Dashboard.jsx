@@ -81,7 +81,7 @@ const Dashboard = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-4 md:mt-0 px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center space-x-2"
+                className="mt-4 md:mt-0 px-6 py-3 bg-linear-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center space-x-2"
               >
                 <Plus className="w-5 h-5" />
                 <span>Create New Resume</span>
@@ -107,7 +107,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="glass-effect rounded-3xl p-12 text-center"
           >
-            <div className="bg-gradient-to-br from-primary-100 to-accent-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="bg-linear-to-br from-primary-100 to-accent-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
               <FileText className="w-12 h-12 text-primary-600" />
             </div>
             <h2 className="text-2xl font-bold text-slate-800 mb-3">
@@ -121,7 +121,7 @@ const Dashboard = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 inline-flex items-center space-x-2"
+                className="px-8 py-4 bg-linear-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 inline-flex items-center space-x-2"
               >
                 <Plus className="w-5 h-5" />
                 <span>Create Your First Resume</span>
@@ -142,7 +142,7 @@ const Dashboard = () => {
                   className="glass-effect rounded-2xl p-6 card-hover group"
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className="bg-gradient-to-br from-primary-500 to-accent-500 p-3 rounded-xl">
+                    <div className="bg-linear-to-br from-primary-500 to-accent-500 p-3 rounded-xl">
                       <FileText className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex items-center space-x-2">
@@ -203,7 +203,7 @@ const Dashboard = () => {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+                        className="w-full py-2 bg-linear-to-r from-primary-500 to-primary-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
                       >
                         View Details
                       </motion.button>
