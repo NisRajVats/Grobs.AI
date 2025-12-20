@@ -1,10 +1,13 @@
-from fastapi import FastAPI, Depends, HTTPException, Response, status
+from fastapi import FastAPI, Depends, HTTPException, Response, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from typing import List
 import crud
 import ai_analyzer
+import resume_parser
+import os
+import tempfile
 
 # Import all our new files
 import models
@@ -170,6 +173,47 @@ async def create_new_resume(
     
     # 3. Call the CRUD function to save everything
     return crud.create_resume(db=db, resume_data=resume_data, user_id=current_user.id)
+
+
+@app.post("/resume/upload/", response_model=schemas.Resume)
+async def upload_and_parse_resume(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """
+    Protected endpoint to upload a PDF resume and parse it automatically.
+    Uses HuggingFace models to extract information from the resume.
+    """
+    
+    if not file.filename.lower().endswith('.pdf'):
+        raise HTTPException(status_code=400, detail="Only PDF files are supported")
+    
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_pdf:
+            contents = await file.read()
+            temp_pdf.write(contents)
+            temp_pdf_path = temp_pdf.name
+        
+        parsed_resume = resume_parser.parse_resume(temp_pdf_path)
+        
+        os.unlink(temp_pdf_path)
+        
+        created_resume = crud.create_resume(
+            db=db,
+            resume_data=parsed_resume,
+            user_id=current_user.id
+        )
+        
+        return created_resume
+        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error parsing resume: {str(e)}")
+    finally:
+        if os.path.exists(temp_pdf_path):
+            os.unlink(temp_pdf_path)
 
 @app.get("/resumes/", response_model=List[schemas.Resume])
 async def read_user_resumes(
