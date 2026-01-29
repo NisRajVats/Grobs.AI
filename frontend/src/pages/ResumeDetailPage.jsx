@@ -206,9 +206,9 @@ const ResumeDetailPage = () => {
                         <p className="text-sm text-slate-500 mb-2">
                           {exp.start_date} - {exp.end_date}
                         </p>
-                        {exp.responsibilities && (
+                        {exp.description && (
                           <p className="text-slate-600 text-sm whitespace-pre-wrap">
-                            {exp.responsibilities}
+                            {exp.description}
                           </p>
                         )}
                       </motion.div>

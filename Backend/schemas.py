@@ -33,11 +33,14 @@ class TokenData(BaseModel):
 class EducationBase(BaseModel):
     school: str
     degree: str
+    major: Optional[str] = None
+    gpa: Optional[str] = None
     start_date: str
     end_date: str
+    description: Optional[str] = None
 
 class EducationCreate(EducationBase):
-    pass # No new fields needed for creation
+    pass
 
 class Education(EducationBase):
     id: int
@@ -50,9 +53,11 @@ class Education(EducationBase):
 class ExperienceBase(BaseModel):
     company: str
     role: str
+    location: Optional[str] = None
     start_date: str
-    end_date: str
-    responsibilities: Optional[str] = None
+    end_date: Optional[str] = None
+    current: bool = False
+    description: Optional[str] = None
 
 class ExperienceCreate(ExperienceBase):
     pass
@@ -69,6 +74,8 @@ class ProjectBase(BaseModel):
     project_name: str
     description: Optional[str] = None
     project_url: Optional[str] = None
+    github_url: Optional[str] = None
+    technologies: Optional[str] = None
 
 class ProjectCreate(ProjectBase):
     pass
@@ -83,6 +90,7 @@ class Project(ProjectBase):
 # --- NEW: Skill Schemas ---
 class SkillBase(BaseModel):
     name: str
+    category: Optional[str] = 'Technical'
 
 class SkillCreate(SkillBase):
     pass
@@ -139,3 +147,59 @@ class AnalysisResult(BaseModel):
     score: float
     missing_keywords: List[str]
     suggestions: str
+
+
+# --- ATS Checker Schemas ---
+
+class ATSScoreResponse(BaseModel):
+    """Response for ATS score check"""
+    overall_score: int
+    category_scores: dict
+    issues: List[str]
+    recommendations: List[str]
+
+
+# --- Career Path Schemas ---
+
+class CareerPathResponse(BaseModel):
+    """Response for career path recommendation"""
+    current_role: str
+    experience_level: str
+    current_skills: List[str]
+    skill_categories: dict
+    next_career_step: dict
+    lateral_moves: List[dict]
+    skills_to_develop: List[str]
+    skill_gaps: List[str]
+    estimated_timeline: str
+    industry_trends: List[str]
+    recommendations: List[str]
+
+
+# --- Interview Prep Schemas ---
+
+class InterviewQuestionsResponse(BaseModel):
+    """Response for interview preparation"""
+    role: str
+    technologies: List[str]
+    interview_structure: dict
+    preparation_tips: List[str]
+    estimated_duration: str
+
+
+# --- Cover Letter Schemas ---
+
+class CoverLetterRequest(BaseModel):
+    """Request to generate a cover letter"""
+    job_description: str
+    company_name: Optional[str] = None
+    position_title: Optional[str] = None
+
+
+class CoverLetterResponse(BaseModel):
+    """Response with generated cover letter"""
+    success: bool
+    cover_letter: str
+    cover_letter_html: Optional[str] = None
+    error: Optional[str] = None
+    metadata: Optional[dict] = None

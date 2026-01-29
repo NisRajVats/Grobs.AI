@@ -332,7 +332,7 @@ def extract_experience(text: str) -> List[schemas.ExperienceCreate]:
             # Look for company and dates in next 2-3 lines
             company = None
             dates = (None, None)
-            responsibilities = []
+            description = []
             
             for j in range(i+1, min(i+4, end_idx)):
                 next_line = lines[j].strip()
@@ -347,10 +347,10 @@ def extract_experience(text: str) -> List[schemas.ExperienceCreate]:
                     # Extract dates from this line
                     dates = extract_dates_from_line(next_line)
                 
-                # Check for bullet points (responsibilities)
+                # Check for bullet points (description)
                 if re.match(r'^[-•●▪]', next_line):
                     resp = re.sub(r'^[-•●▪]\s*', '', next_line)
-                    responsibilities.append(resp)
+                    description.append(resp)
                 
                 # Stop if we hit another job title
                 if j > i+1 and any(indicator in next_line for indicator in job_indicators):
@@ -370,7 +370,7 @@ def extract_experience(text: str) -> List[schemas.ExperienceCreate]:
                 role=clean_text(role)[:200],
                 start_date=dates[0] if dates[0] else "2022",
                 end_date=dates[1] if dates[1] else "2024",
-                responsibilities=' | '.join(responsibilities) if responsibilities else "Key responsibilities and achievements"
+                description=' | '.join(description) if description else "Key responsibilities and achievements"
             ))
             
             i += 4  # Skip ahead
@@ -384,7 +384,7 @@ def extract_experience(text: str) -> List[schemas.ExperienceCreate]:
             role="Professional",
             start_date="2022",
             end_date="2024",
-            responsibilities="Professional experience"
+            description="Professional experience"
         ))
     
     return experience

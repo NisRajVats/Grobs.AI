@@ -31,7 +31,7 @@ EDUCATION:
 {chr(10).join([f"- {edu.degree} from {edu.school}" for edu in resume.education]) or 'N/A'}
 
 EXPERIENCE:
-{chr(10).join([f"- {exp.role} at {exp.company}: {exp.responsibilities}" for exp in resume.experience]) or 'N/A'}
+{chr(10).join([f"- {exp.role} at {exp.company}: {exp.description}" for exp in resume.experience]) or 'N/A'}
 
 PROJECTS:
 {chr(10).join([f"- {proj.project_name}: {proj.description}" for proj in resume.projects]) or 'N/A'}
@@ -60,14 +60,23 @@ Return ONLY valid JSON, no markdown or extra text."""
         response = model.generate_content(prompt)
         response_text = response.text.strip()
         
-        # Extract JSON from markdown code blocks if present
-        json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
-        if json_match:
-            response_text = json_match.group(0)
+        json_text = response_text
         
-        result = json.loads(response_text)
+        if '```' in response_text:
+            json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', response_text)
+            if json_match:
+                json_text = json_match.group(1).strip()
         
-        # Ensure all required fields exist
+        if not json_text.startswith('{'):
+            json_match = re.search(r'\{[\s\S]*\}', json_text)
+            if json_match:
+                json_text = json_match.group(0)
+        
+        if json_text.endswith(','):
+            json_text = json_text[:-1]
+        
+        result = json.loads(json_text)
+        
         if 'score' not in result:
             result['score'] = 0
         if 'missing_keywords' not in result:
@@ -77,9 +86,15 @@ Return ONLY valid JSON, no markdown or extra text."""
         
         return result
         
+    except json.JSONDecodeError as e:
+        print(f"JSON parsing error: {e}")
+        return {
+            "score": 50,
+            "missing_keywords": ["Unable to parse response"],
+            "suggestions": "Resume review completed but detailed analysis unavailable"
+        }
     except Exception as e:
         print(f"Error calling Gemini API: {e}")
-        # Handle cases where the AI gives a bad response (e.g., safety block)
         return {
             "score": 0,
             "missing_keywords": ["Error: Could not analyze resume."],

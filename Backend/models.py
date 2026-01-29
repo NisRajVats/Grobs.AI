@@ -48,8 +48,11 @@ class Education(Base):
     id = Column(Integer, primary_key=True, index=True)
     school = Column(String)
     degree = Column(String)
+    major = Column(String, nullable=True)
+    gpa = Column(String, nullable=True)
     start_date = Column(String)
     end_date = Column(String)
+    description = Column(Text, nullable=True)
     
     # Link to the resume it belongs to
     resume_id = Column(Integer, ForeignKey("resumes.id"))
@@ -62,9 +65,11 @@ class Experience(Base):
     id = Column(Integer, primary_key=True, index=True)
     company = Column(String)
     role = Column(String)
+    location = Column(String, nullable=True)
     start_date = Column(String)
     end_date = Column(String)
-    responsibilities = Column(Text, nullable=True) # Use Text for longer descriptions
+    current = Column(Boolean, default=False)
+    description = Column(Text, nullable=True)
     
     # Link to the resume it belongs to
     resume_id = Column(Integer, ForeignKey("resumes.id"))
@@ -78,6 +83,8 @@ class Project(Base):
     project_name = Column(String)
     description = Column(Text, nullable=True)
     project_url = Column(String, nullable=True)
+    github_url = Column(String, nullable=True)
+    technologies = Column(String, nullable=True)
     
     # Link to the resume it belongs to
     resume_id = Column(Integer, ForeignKey("resumes.id"))
@@ -89,6 +96,7 @@ class Skill(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
+    category = Column(String, nullable=True, default='Technical')
 
     # Link to the resume it belongs to
     resume_id = Column(Integer, ForeignKey("resumes.id"))

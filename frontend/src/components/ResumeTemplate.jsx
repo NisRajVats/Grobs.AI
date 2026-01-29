@@ -46,7 +46,7 @@ export const ResumeTemplate = ({ resume }) => {
             <div key={exp.id} style={styles.entry}>
               <div style={styles.entryHeader}>{exp.role}</div>
               <div style={styles.entrySubheader}>{exp.company} | {exp.start_date} - {exp.end_date}</div>
-              <div style={styles.entryDesc}>{exp.responsibilities}</div>
+              <div style={styles.entryDesc}>{exp.description}</div>
             </div>
           ))}
         </section>

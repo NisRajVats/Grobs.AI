@@ -9,6 +9,7 @@ import CreateResumePage from './pages/CreateResumePage';
 import PrintResumePage from './pages/PrintResumePage';
 import AnalyzeResumePage from './pages/AnalyzeResumePage';
 import EditResumePage from './pages/EditResumePage';
+import UploadResumePage from './pages/UploadResumePage';
 
 // Component Imports
 import { useAuth } from './context/AuthContext';
@@ -187,17 +188,29 @@ function HomePage() {
               </h2>
               <p className="text-purple-200/70 text-lg">Build a professional resume that commands attention</p>
             </div>
-            <Link 
-              to="/create-resume" 
-              className="relative overflow-hidden group inline-flex items-center gap-3 rounded-2xl bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 text-white px-8 py-4 text-lg font-black shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 transform hover:-translate-y-2 hover:scale-105 transition-all duration-500"
-            >
-              <div className="absolute inset-0 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <svg className="relative w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              <span className="relative">Create New Resume</span>
-              <div className="relative w-2 h-2 rounded-full bg-white animate-ping"></div>
-            </Link>
+            <div className="flex gap-3 flex-col sm:flex-row">
+              <Link 
+                to="/upload-resume" 
+                className="relative overflow-hidden group inline-flex items-center gap-3 rounded-2xl bg-linear-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white px-6 py-4 text-base font-black shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 transform hover:-translate-y-2 hover:scale-105 transition-all duration-500"
+              >
+                <div className="absolute inset-0 bg-linear-to-r from-emerald-600 via-teal-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="relative w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <span className="relative">Upload Resume</span>
+              </Link>
+              <Link 
+                to="/create-resume" 
+                className="relative overflow-hidden group inline-flex items-center gap-3 rounded-2xl bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 text-white px-8 py-4 text-lg font-black shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 transform hover:-translate-y-2 hover:scale-105 transition-all duration-500"
+              >
+                <div className="absolute inset-0 bg-linear-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="relative w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span className="relative">Create New Resume</span>
+                <div className="relative w-2 h-2 rounded-full bg-white animate-ping"></div>
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -368,6 +381,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/create-resume" element={<CreateResumePage />} />
+            <Route path="/upload-resume" element={<UploadResumePage />} />
             <Route path="/print-preview" element={<PrintResumePage />} />
             <Route path="/resume/:resumeId/analyze" element={<AnalyzeResumePage />} />
             <Route path="/edit-resume/:resumeId" element={<EditResumePage />} />

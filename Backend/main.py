@@ -15,6 +15,12 @@ import schemas
 import crud
 from database import engine, get_db  # get_db was in database.py
 
+# Import new feature modules
+import ats_checker
+import career_path
+import interview_prep
+import cover_letter_generator
+
 # This creates the tables (it's safe to run every time)
 models.Base.metadata.create_all(bind=engine)
 
@@ -24,8 +30,10 @@ app = FastAPI()
 # This is the security that allows your React frontend
 # to talk to your Python backend
 origins = [
-    "http://localhost:5175",  # Your React app
-    "http://127.0.0.1:5175",  # Your React app (127.0.0.1)
+    "http://localhost:5173",  # Your React app
+    "http://127.0.0.1:5173",  # Your React app (127.0.0.1)
+    "http://localhost:5175",  # Alternative port
+    "http://127.0.0.1:5175",  # Alternative port
     "http://localhost:3000",  # Alternative port
     "http://127.0.0.1:3000",  # Alternative port
 ]
@@ -307,3 +315,104 @@ async def update_resume(
         raise HTTPException(status_code=404, detail="Resume not found")
         
     return db_resume
+
+
+# --- NEW FEATURE ENDPOINTS ---
+
+@app.post("/resume/{resume_id}/ats-check", response_model=schemas.ATSScoreResponse)
+async def check_ats_score(
+    resume_id: int,
+    job_description: schemas.JobDescriptionIn = None,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """
+    Check ATS compatibility score for a resume.
+    Analyzes formatting, keywords, and ATS-friendliness.
+    """
+    
+    resume = crud.get_resume(db=db, resume_id=resume_id, user_id=current_user.id)
+    if not resume:
+        raise HTTPException(status_code=404, detail="Resume not found")
+    
+    job_desc = job_description.text if job_description else ""
+    ats_result = ats_checker.calculate_ats_score(resume, job_desc)
+    
+    return ats_result
+
+
+@app.post("/resume/{resume_id}/career-path", response_model=schemas.CareerPathResponse)
+async def get_career_path(
+    resume_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """
+    Get personalized career path recommendations based on resume.
+    Includes next career steps, lateral moves, and skill gaps.
+    """
+    
+    resume = crud.get_resume(db=db, resume_id=resume_id, user_id=current_user.id)
+    if not resume:
+        raise HTTPException(status_code=404, detail="Resume not found")
+    
+    career_result = career_path.analyze_career_path(resume)
+    
+    return career_result
+
+
+@app.post("/resume/{resume_id}/interview-prep", response_model=schemas.InterviewQuestionsResponse)
+async def get_interview_prep(
+    resume_id: int,
+    job_description: schemas.JobDescriptionIn = None,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """
+    Generate interview preparation questions tailored to resume and job.
+    Includes behavioral, technical, and role-specific questions.
+    """
+    
+    resume = crud.get_resume(db=db, resume_id=resume_id, user_id=current_user.id)
+    if not resume:
+        raise HTTPException(status_code=404, detail="Resume not found")
+    
+    job_desc = job_description.text if job_description else ""
+    interview_result = interview_prep.generate_interview_questions(resume, job_desc)
+    
+    return interview_result
+
+
+@app.post("/resume/{resume_id}/cover-letter", response_model=schemas.CoverLetterResponse)
+async def generate_cover_letter(
+    resume_id: int,
+    request: schemas.CoverLetterRequest,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """
+    Generate a customized cover letter using AI.
+    Tailored to the job description and company.
+    """
+    
+    resume = crud.get_resume(db=db, resume_id=resume_id, user_id=current_user.id)
+    if not resume:
+        raise HTTPException(status_code=404, detail="Resume not found")
+    
+    letter_result = cover_letter_generator.generate_cover_letter(
+        resume,
+        request.job_description,
+        request.company_name or "",
+        request.position_title or ""
+    )
+    
+    return letter_result
+
+
+@app.get("/cover-letter/tips")
+async def get_cover_letter_tips():
+    """
+    Get tips and best practices for writing a strong cover letter.
+    """
+    
+    return cover_letter_generator.get_cover_letter_tips()
